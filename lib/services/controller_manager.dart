@@ -6,6 +6,7 @@ import '../controllers/film_evaluation_controller.dart';
 import '../controllers/leaderboard_controller.dart';
 import '../controllers/navigation_controller.dart';
 import '../controllers/onboarding_controller.dart';
+import '../controllers/user_controller.dart';
 
 class ControllerManager {
   static final ControllerManager _instance = ControllerManager._internal();
@@ -27,6 +28,10 @@ class ControllerManager {
 
     if (!Get.isRegistered<OnboardingController>()) {
       Get.put(OnboardingController(), permanent: true);
+    }
+
+    if (!Get.isRegistered<UserController>()) {
+      Get.put(UserController(), permanent: true);
     }
   }
 
@@ -72,6 +77,10 @@ class ControllerManager {
 
     if (Get.isRegistered<OnboardingController>()) {
       Get.delete<OnboardingController>(force: true);
+    }
+
+    if (Get.isRegistered<UserController>()) {
+      Get.delete<UserController>(force: true);
     }
   }
 }

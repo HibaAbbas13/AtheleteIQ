@@ -135,8 +135,8 @@ class _AIScoreGaugeState extends State<AIScoreGauge>
             child: CircularProgressIndicator(
               value: 1.0,
               strokeWidth: 12,
-              backgroundColor: AppColors.grey800,
-              valueColor: AlwaysStoppedAnimation<Color>(AppColors.grey800),
+              backgroundColor: AppColors.grey200,
+              valueColor: AlwaysStoppedAnimation<Color>(AppColors.grey200),
             ),
           ),
 

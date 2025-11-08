@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../data/app_colors.dart';
+import '../../../data/app_colors.dart';
 
-// Leaderboard Card
 class LeaderboardCard extends StatelessWidget {
   final int rank;
   final String name;
@@ -46,7 +45,6 @@ class LeaderboardCard extends StatelessWidget {
       ),
       child: Row(
         children: [
-          // Rank
           Container(
             width: 40.w,
             height: 40.w,
@@ -67,7 +65,6 @@ class LeaderboardCard extends StatelessWidget {
           ),
           SizedBox(width: 12.w),
 
-          // User Info
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -117,7 +114,6 @@ class LeaderboardCard extends StatelessWidget {
             ),
           ),
 
-          // Tokens
           Column(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
@@ -168,3 +164,4 @@ class LeaderboardCard extends StatelessWidget {
     }
   }
 }
+

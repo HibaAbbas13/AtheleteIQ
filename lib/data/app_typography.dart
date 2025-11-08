@@ -4,9 +4,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'app_colors.dart';
 
 class AppTypography {
-  // Sporty Sans-Serif Fonts: Poppins (primary) and Montserrat (alternate)
-
-  // Regular - Poppins
   static TextStyle kRegular10 = GoogleFonts.poppins(
     fontSize: 10.sp,
     fontWeight: FontWeight.w400,
@@ -28,7 +25,6 @@ class AppTypography {
     color: AppColors.textPrimaryDark,
   );
 
-  // Medium - Poppins
   static TextStyle kMedium10 = GoogleFonts.poppins(
     fontSize: 10.sp,
     fontWeight: FontWeight.w500,
@@ -55,9 +51,13 @@ class AppTypography {
     color: AppColors.textPrimaryDark,
   );
 
-  // Semi-Bold - Poppins
   static TextStyle kSemiBold12 = GoogleFonts.poppins(
     fontSize: 12.sp,
+    fontWeight: FontWeight.w600,
+    color: AppColors.textPrimaryDark,
+  );
+  static TextStyle kSemiBold14 = GoogleFonts.poppins(
+    fontSize: 14.sp,
     fontWeight: FontWeight.w600,
     color: AppColors.textPrimaryDark,
   );
@@ -82,7 +82,6 @@ class AppTypography {
     color: AppColors.textPrimaryDark,
   );
 
-  // Bold - Poppins
   static TextStyle kBold20 = GoogleFonts.poppins(
     fontSize: 20.sp,
     fontWeight: FontWeight.w700,
@@ -104,7 +103,6 @@ class AppTypography {
     color: AppColors.textPrimaryDark,
   );
 
-  // Montserrat - Alternate for headings
   static TextStyle kMontserratBold24 = GoogleFonts.montserrat(
     fontSize: 24.sp,
     fontWeight: FontWeight.w700,
@@ -116,7 +114,6 @@ class AppTypography {
     color: AppColors.textPrimaryDark,
   );
 
-  // Neon Accent Text Styles
   static TextStyle neonOrangeText(double fontSize) => GoogleFonts.poppins(
     fontSize: fontSize.sp,
     fontWeight: FontWeight.w600,

@@ -1,4 +1,8 @@
 import '../models/user_model.dart';
+import '../data/enums/user_role.dart';
+import '../data/enums/sports_type.dart';
+import '../data/enums/positions.dart';
+import '../data/enums/tier.dart';
 
 class StaticData {
   static List<User> get sampleUsers => [

@@ -6,7 +6,7 @@ import '../../../data/app_colors.dart';
 import '../../../data/app_typography.dart';
 import '../../../data/static_data.dart';
 import '../../../models/user_model.dart';
-import '../../../widgets/components/leaderboard_card.dart';
+import 'leaderboard_card.dart';
 
 class FullRankings extends StatelessWidget {
   const FullRankings({super.key});

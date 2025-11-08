@@ -2,7 +2,6 @@ import 'package:athleteiq/controllers/navigation_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
-
 import '../../data/app_colors.dart';
 import '../../data/app_typography.dart';
 import 'components/dashboard_content.dart';

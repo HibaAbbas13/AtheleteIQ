@@ -1,6 +1,5 @@
 import 'package:athleteiq/services/shared_preference.dart';
 import 'package:get/get.dart';
-
 import 'package:flutter/material.dart';
 
 class AuthController extends GetxController with WidgetsBindingObserver {

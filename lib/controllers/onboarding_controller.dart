@@ -1,7 +1,5 @@
 import 'package:get/get.dart';
-
 import 'package:athleteiq/services/shared_preference.dart';
-
 import 'auth_controller.dart';
 
 class OnboardingController extends GetxController {

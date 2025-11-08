@@ -7,6 +7,7 @@ import 'package:iconsax/iconsax.dart';
 import '../../data/app_colors.dart';
 import '../../data/app_typography.dart';
 import '../../services/auth_wrapper.dart';
+import '../../widgets/animations/animated_widgets.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -46,7 +47,10 @@ class _SplashScreenState extends State<SplashScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   // Logo/icon
-                  Container(
+                  ScaleInWidget(
+                    duration: const Duration(milliseconds: 800),
+                    curve: Curves.elasticOut,
+                    child: Container(
                         width: 140.w,
                         height: 140.w,
                         decoration: BoxDecoration(
@@ -58,52 +62,47 @@ class _SplashScreenState extends State<SplashScreen> {
                           size: 70.w,
                           color: AppColors.white,
                         ),
-                      )
-                      .animate()
-                      .scale(duration: 800.ms, curve: Curves.elasticOut)
-                      .fadeIn(duration: 600.ms),
+                    ),
+                  ),
 
                   SizedBox(height: 48.h),
 
                   // Title
-                  Text(
+                  SlideFromTopWidget(
+                    duration: const Duration(milliseconds: 800),
+                    delay: const Duration(milliseconds: 300),
+                    begin: 0.3,
+                    child: Text(
                         'RecruitAI',
                         style: AppTypography.kMontserratBold32.copyWith(
                           color: AppColors.black,
                         ),
-                      )
-                      .animate()
-                      .fadeIn(duration: 800.ms, delay: 300.ms)
-                      .slideY(
-                        begin: 0.3,
-                        end: 0,
-                        duration: 800.ms,
-                        curve: Curves.easeOut,
+                    ),
                       ),
 
                   SizedBox(height: 16.h),
 
                   // Subtitle
-                  Text(
+                  SlideFromTopWidget(
+                    duration: const Duration(milliseconds: 800),
+                    delay: const Duration(milliseconds: 500),
+                    begin: 0.3,
+                    child: Text(
                         'Your journey starts here',
                         style: AppTypography.kMedium18.copyWith(
                           color: AppColors.grey600,
                           letterSpacing: 1.2,
                         ),
-                      )
-                      .animate()
-                      .fadeIn(duration: 800.ms, delay: 500.ms)
-                      .slideY(
-                        begin: 0.3,
-                        end: 0,
-                        duration: 800.ms,
-                        curve: Curves.easeOut,
+                    ),
                       ),
 
                   SizedBox(height: 64.h),
 
                   // Loading indicator
-                  Container(
+                  FadeInWidget(
+                    duration: const Duration(milliseconds: 600),
+                    delay: const Duration(milliseconds: 700),
+                    child: Container(
                     width: 200.w,
                     height: 4.h,
                     decoration: BoxDecoration(
@@ -129,7 +128,8 @@ class _SplashScreenState extends State<SplashScreen> {
                             ),
                       ],
                     ),
-                  ).animate().fadeIn(duration: 600.ms, delay: 700.ms),
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -141,19 +141,24 @@ class _SplashScreenState extends State<SplashScreen> {
               right: 0,
               child: Column(
                 children: [
+                  // CPU icon with repeating animation (keep manual for repeat)
                   Icon(Iconsax.cpu, color: AppColors.grey400, size: 24.w)
                       .animate(onPlay: (controller) => controller.repeat())
                       .fadeIn(duration: 1000.ms)
                       .then()
                       .fadeOut(duration: 1000.ms),
                   SizedBox(height: 8.h),
-                  Text(
+                  FadeInWidget(
+                    duration: const Duration(milliseconds: 600),
+                    delay: const Duration(milliseconds: 1000),
+                    child: Text(
                     'Powered by AI',
                     style: AppTypography.kRegular14.copyWith(
                       color: AppColors.grey500,
                       letterSpacing: 1,
                     ),
-                  ).animate().fadeIn(duration: 600.ms, delay: 1000.ms),
+                    ),
+                  ),
                 ],
               ),
             ),

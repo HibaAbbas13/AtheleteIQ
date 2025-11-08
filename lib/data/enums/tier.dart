@@ -1,0 +1,1 @@
+enum Tier { bronze, silver, gold, platinum }

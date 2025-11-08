@@ -8,6 +8,8 @@ import 'package:iconsax/iconsax.dart';
 import '../../data/app_colors.dart';
 import '../../data/app_typography.dart';
 import '../../widgets/components/custom_button.dart';
+import '../../widgets/animations/animated_widgets.dart';
+import 'components/onboarding_page.dart';
 
 class OnboardingScreen extends StatefulWidget {
   const OnboardingScreen({super.key});
@@ -38,23 +40,20 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               alignment: Alignment.topRight,
               child: Padding(
                 padding: EdgeInsets.all(20.w),
-                child:
-                    TextButton(
-                          onPressed: () {
-                            Get.find<OnboardingController>()
-                                .completeOnboarding();
-                            Get.back();
-                          },
-                          child: Text(
-                            'Skip',
-                            style: AppTypography.kMedium16.copyWith(
-                              color: AppColors.grey600,
-                            ),
-                          ),
-                        )
-                        .animate()
-                        .fadeIn(duration: 600.ms)
-                        .slideX(begin: 0.2, end: 0, duration: 600.ms),
+                child: SlideFromRightWidget(
+                  child: TextButton(
+                    onPressed: () {
+                      Get.find<OnboardingController>().completeOnboarding();
+                      Get.back();
+                    },
+                    child: Text(
+                      'Skip',
+                      style: AppTypography.kMedium16.copyWith(
+                        color: AppColors.grey600,
+                      ),
+                    ),
+                  ),
+                ),
               ),
             ),
 
@@ -67,7 +66,85 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     _currentPage = index;
                   });
                 },
-                children: [_buildOnboardingPage1(), _buildOnboardingPage2()],
+                children: [
+                  OnboardingPage(
+                    title: 'Upload Your Highlights',
+                    description:
+                        'Upload game footage or paste a Hudl/YouTube link. Our AI analyzes your performance instantly.',
+                    icon: Container(
+                      width: 180.w,
+                      height: 180.w,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: AppColors.primaryBlue.withOpacity(0.1),
+                      ),
+                      child: Center(
+                        child: Container(
+                          width: 140.w,
+                          height: 140.w,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: AppColors.primaryBlue,
+                          ),
+                          child: Icon(
+                            Iconsax.video_play,
+                            size: 70.w,
+                            color: AppColors.white,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  OnboardingPage(
+                    title: 'AI-Powered Progress',
+                    description:
+                        'Receive detailed AI analysis with scores (1-100), personalized improvement tips, and track your progress on the leaderboard.',
+                    icon: Container(
+                      width: 200.w,
+                      height: 200.w,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: AppColors.primaryBlue.withOpacity(0.1),
+                      ),
+                      child: Stack(
+                        alignment: Alignment.center,
+                        children: [
+                          // Circular progress
+                          SizedBox(
+                            width: 170.w,
+                            height: 170.w,
+                            child: CircularProgressIndicator(
+                              value: 0.87,
+                              strokeWidth: 8,
+                              backgroundColor: AppColors.grey200,
+                              valueColor: AlwaysStoppedAnimation<Color>(
+                                AppColors.primaryBlue,
+                              ),
+                            ),
+                          ),
+                          // Score text
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                '87',
+                                style: AppTypography.kBold32.copyWith(
+                                  color: AppColors.black,
+                                ),
+                              ),
+                              Text(
+                                'AI ReScore',
+                                style: AppTypography.kRegular12.copyWith(
+                                  color: AppColors.grey600,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
 
@@ -159,178 +236,4 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     );
   }
 
-  Widget _buildOnboardingPage1() {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 24.w),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          // Animated icon
-          Container(
-                width: 180.w,
-                height: 180.w,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: AppColors.primaryBlue.withOpacity(0.1),
-                ),
-                child: Center(
-                  child: Container(
-                    width: 140.w,
-                    height: 140.w,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: AppColors.primaryBlue,
-                    ),
-                    child: Icon(
-                      Iconsax.video_play,
-                      size: 70.w,
-                      color: AppColors.white,
-                    ),
-                  ),
-                ),
-              )
-              .animate()
-              .scale(duration: 800.ms, curve: Curves.elasticOut)
-              .fadeIn(duration: 600.ms),
-
-          SizedBox(height: 48.h),
-
-          // Title
-          Text(
-                'Upload Your Highlights',
-                style: AppTypography.kMontserratBold32.copyWith(
-                  color: AppColors.black,
-                ),
-                textAlign: TextAlign.center,
-              )
-              .animate()
-              .fadeIn(duration: 800.ms, delay: 200.ms)
-              .slideY(
-                begin: 0.3,
-                end: 0,
-                duration: 800.ms,
-                curve: Curves.easeOut,
-              ),
-
-          SizedBox(height: 16.h),
-
-          // Description
-          Text(
-                'Upload game footage or paste a Hudl/YouTube link. Our AI analyzes your performance instantly.',
-                style: AppTypography.kRegular16.copyWith(
-                  color: AppColors.grey600,
-                  height: 1.6,
-                ),
-                textAlign: TextAlign.center,
-              )
-              .animate()
-              .fadeIn(duration: 800.ms, delay: 400.ms)
-              .slideY(
-                begin: 0.3,
-                end: 0,
-                duration: 800.ms,
-                curve: Curves.easeOut,
-              ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildOnboardingPage2() {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 24.w),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          // Animated score gauge preview
-          Container(
-                width: 200.w,
-                height: 200.w,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: AppColors.primaryBlue.withOpacity(0.1),
-                ),
-                child: Stack(
-                  alignment: Alignment.center,
-                  children: [
-                    // Circular progress
-                    SizedBox(
-                      width: 170.w,
-                      height: 170.w,
-                      child: CircularProgressIndicator(
-                        value: 0.87,
-                        strokeWidth: 8,
-                        backgroundColor: AppColors.grey200,
-                        valueColor: AlwaysStoppedAnimation<Color>(
-                          AppColors.primaryBlue,
-                        ),
-                      ),
-                    ),
-                    // Score text
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          '87',
-                          style: AppTypography.kBold32.copyWith(
-                            color: AppColors.black,
-                          ),
-                        ),
-                        Text(
-                          'AI ReScore',
-                          style: AppTypography.kRegular12.copyWith(
-                            color: AppColors.grey600,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              )
-              .animate()
-              .scale(duration: 800.ms, curve: Curves.elasticOut)
-              .fadeIn(duration: 600.ms),
-
-          SizedBox(height: 48.h),
-
-          // Title
-          Text(
-                'AI-Powered Progress',
-                style: AppTypography.kMontserratBold32.copyWith(
-                  color: AppColors.black,
-                ),
-                textAlign: TextAlign.center,
-              )
-              .animate()
-              .fadeIn(duration: 800.ms, delay: 200.ms)
-              .slideY(
-                begin: 0.3,
-                end: 0,
-                duration: 800.ms,
-                curve: Curves.easeOut,
-              ),
-
-          SizedBox(height: 16.h),
-
-          // Description
-          Text(
-                'Receive detailed AI analysis with scores (1-100), personalized improvement tips, and track your progress on the leaderboard.',
-                style: AppTypography.kRegular16.copyWith(
-                  color: AppColors.grey600,
-                  height: 1.6,
-                ),
-                textAlign: TextAlign.center,
-              )
-              .animate()
-              .fadeIn(duration: 800.ms, delay: 400.ms)
-              .slideY(
-                begin: 0.3,
-                end: 0,
-                duration: 800.ms,
-                curve: Curves.easeOut,
-              ),
-        ],
-      ),
-    );
-  }
 }
