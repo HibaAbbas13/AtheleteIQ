@@ -4,7 +4,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'dart:math' as math;
 
 import '../../data/app_colors.dart';
-import '../../data/app_typography.dart';
+import '../../utils/score_utils.dart';
+import '../../widgets/animations/animated_widgets.dart';
 
 class AIScoreGauge extends StatefulWidget {
   final int score; // 1-100
@@ -14,7 +15,7 @@ class AIScoreGauge extends StatefulWidget {
   const AIScoreGauge({
     super.key,
     required this.score,
-    this.size = 200,
+    this.size = 250,
     this.animate = true,
   });
 
@@ -76,116 +77,153 @@ class _AIScoreGaugeState extends State<AIScoreGauge>
     super.dispose();
   }
 
-  Color _getScoreColor() {
-    if (_animatedScore >= 90) {
-      return AppColors.platinumTierGlow;
-    } else if (_animatedScore >= 80) {
-      return AppColors.goldTierGlow;
-    } else if (_animatedScore >= 70) {
-      return AppColors.silverTierGlow;
-    } else if (_animatedScore >= 60) {
-      return AppColors.bronzeTierGlow;
-    } else {
-      return AppColors.primaryNeonOrange;
-    }
-  }
-
-  String _getScoreLabel() {
-    if (_animatedScore >= 90) {
-      return 'Elite';
-    } else if (_animatedScore >= 80) {
-      return 'Excellent';
-    } else if (_animatedScore >= 70) {
-      return 'Good';
-    } else if (_animatedScore >= 60) {
-      return 'Fair';
-    } else {
-      return 'Improving';
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
-    final scoreColor = _getScoreColor();
+    final animatedScoreInt = _animatedScore.toInt();
+    final scoreColor = ScoreUtils.getScoreColor(animatedScoreInt);
     final progress = _animatedScore / 100;
 
-    return Container(
+    return ScaleFadeWidget(
+      duration: const Duration(milliseconds: 800),
+      delay: const Duration(milliseconds: 200),
+      child: Container(
       width: widget.size.w,
       height: widget.size.w,
       decoration: BoxDecoration(
         shape: BoxShape.circle,
         gradient: RadialGradient(
-          colors: [scoreColor.withOpacity(0.2), Colors.transparent],
+          colors: [
+            scoreColor.withOpacity(0.15),
+            scoreColor.withOpacity(0.05),
+            Colors.transparent
+          ],
+          stops: const [0.3, 0.6, 1.0],
         ),
-        boxShadow: [
-          BoxShadow(
-            color: scoreColor.withOpacity(0.3),
-            blurRadius: 30,
-            spreadRadius: 5,
-          ),
-        ],
       ),
       child: Stack(
         alignment: Alignment.center,
         children: [
-          // Background circle
-          SizedBox(
-            width: widget.size.w,
-            height: widget.size.w,
-            child: CircularProgressIndicator(
-              value: 1.0,
-              strokeWidth: 12,
-              backgroundColor: AppColors.grey200,
-              valueColor: AlwaysStoppedAnimation<Color>(AppColors.grey200),
+          Container(
+            width: widget.size.w * 0.95,
+            height: widget.size.w * 0.95,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              boxShadow: [
+                BoxShadow(
+                  color: scoreColor.withOpacity(0.3),
+                  blurRadius: 40,
+                  spreadRadius: 10,
+                ),
+                BoxShadow(
+                  color: scoreColor.withOpacity(0.2),
+                  blurRadius: 20,
+                  spreadRadius: 5,
+                ),
+              ],
+            ),
+          ),
+          Container(
+            width: widget.size.w * 0.88,
+            height: widget.size.w * 0.88,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              gradient: RadialGradient(
+                colors: [
+                  scoreColor.withOpacity(0.3),
+                  scoreColor.withOpacity(0.15),
+                  scoreColor.withOpacity(0.05),
+                ],
+                stops: const [0.0, 0.5, 1.0],
+              ),
             ),
           ),
 
-          // Animated progress
+          SizedBox(
+            width: widget.size.w * 0.85,
+            height: widget.size.w * 0.85,
+            child: CircularProgressIndicator(
+              value: 1.0,
+              strokeWidth: 16,
+              backgroundColor: AppColors.grey200.withOpacity(0.3),
+              valueColor: AlwaysStoppedAnimation<Color>(
+                AppColors.grey200.withOpacity(0.3),
+              ),
+            ),
+          ),
+
           Transform.rotate(
                 angle: -math.pi / 2,
                 child: SizedBox(
-                  width: widget.size.w,
-                  height: widget.size.w,
+                  width: widget.size.w * 0.85,
+                  height: widget.size.w * 0.85,
                   child: CircularProgressIndicator(
                     value: progress,
-                    strokeWidth: 12,
+                    strokeWidth: 16,
+                    strokeCap: StrokeCap.round,
                     backgroundColor: Colors.transparent,
                     valueColor: AlwaysStoppedAnimation<Color>(scoreColor),
                   ),
                 ),
               )
               .animate(target: widget.animate ? 1 : 0)
-              .shimmer(duration: 2000.ms, color: scoreColor.withOpacity(0.5)),
-
-          // Score text
+              .shimmer(duration: 2000.ms, color: scoreColor.withOpacity(0.6)),
+  
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
                 _animatedScore.toInt().toString(),
-                style: AppTypography.kBold32.copyWith(
+                style: TextStyle(
+                  fontSize: 72.sp,
+                  fontWeight: FontWeight.bold,
                   color: scoreColor,
+                  letterSpacing: -2,
                   shadows: [
-                    Shadow(color: scoreColor.withOpacity(0.5), blurRadius: 10),
+                    Shadow(
+                      color: scoreColor.withOpacity(0.4),
+                      blurRadius: 20,
+                    ),
+                    Shadow(
+                      color: scoreColor.withOpacity(0.2),
+                      blurRadius: 40,
+                    ),
                   ],
                 ),
               ),
-              SizedBox(height: 4.h),
+              SizedBox(height: 8.h),
               Text(
                 'AI ReScore',
-                style: AppTypography.kRegular12.copyWith(
-                  color: AppColors.grey400,
+                style: TextStyle(
+                  fontSize: 14.sp,
+                  fontWeight: FontWeight.w500,
+                  color: AppColors.grey500,
+                  letterSpacing: 0.5,
                 ),
               ),
-              SizedBox(height: 4.h),
-              Text(
-                _getScoreLabel(),
-                style: AppTypography.kMedium12.copyWith(color: scoreColor),
+              SizedBox(height: 6.h),
+              Container(
+                padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 6.h),
+                decoration: BoxDecoration(
+                  color: scoreColor.withOpacity(0.15),
+                  borderRadius: BorderRadius.circular(20.r),
+                ),
+                child: Text(
+                  ScoreUtils.getScoreLabel(animatedScoreInt),
+                  style: TextStyle(
+                    fontSize: 13.sp,
+                    fontWeight: FontWeight.w600,
+                    color: scoreColor,
+                    letterSpacing: 0.3,
+                  ),
+                ),
               ),
             ],
           ),
         ],
       ),
+    ),
     );
   }
 }
+

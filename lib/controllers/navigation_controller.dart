@@ -1,6 +1,7 @@
+import 'package:athleteiq/modules/dashboard/dashboard_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../modules/dashboard/dashboard_screen.dart';
+import '../modules/bottom_nav_bar/bottom_nav_bar.dart';
 import '../modules/film_evaluation/film_evaluation_screen.dart';
 import '../modules/leaderboard/leaderboard_screen.dart';
 import '../modules/profile/profile_screen.dart';
@@ -16,7 +17,7 @@ class NavigationController extends GetxController {
   Widget getCurrentScreen() {
     switch (currentIndex.value) {
       case 0:
-        return const DashboardScreen();
+          return const DashboardScreen();
       case 1:
         return const FilmEvaluationScreen();
       case 2:

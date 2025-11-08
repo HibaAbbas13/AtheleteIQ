@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../data/app_colors.dart';
 import '../../../data/app_typography.dart';
 import '../../../data/static_data.dart';
 import '../../../widgets/components/custom_card.dart';
+import '../../../widgets/animations/animated_widgets.dart';
 
 class TopThreePodium extends StatelessWidget {
   const TopThreePodium({super.key});
@@ -14,7 +14,11 @@ class TopThreePodium extends StatelessWidget {
   Widget build(BuildContext context) {
     final topThree = StaticData.sampleLeaderboard.take(3).toList();
 
-    return CustomCard(
+    return FadeSlideWidget(
+      duration: const Duration(milliseconds: 600),
+      delay: const Duration(milliseconds: 200),
+      slideBegin: 0.2,
+      child: CustomCard(
           type: CardType.outlined,
           child: Column(
             children: [
@@ -50,10 +54,8 @@ class TopThreePodium extends StatelessWidget {
               ),
             ],
           ),
-        )
-        .animate()
-        .fadeIn(duration: 600.ms, delay: 200.ms)
-        .slideY(begin: 0.2, end: 0, duration: 600.ms, curve: Curves.easeOut);
+        ),
+    );
   }
 }
 

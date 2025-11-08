@@ -2,20 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
-import '../../../controllers/film_evaluation_controller.dart';
 import '../../../data/app_colors.dart';
 import '../../../widgets/components/custom_button.dart';
 import '../../../widgets/components/custom_input.dart';
 
 class UrlInputDialog extends StatelessWidget {
-  final FilmEvaluationController controller;
+  final Function(String)? onUrlSubmitted;
 
-  const UrlInputDialog({
-    super.key,
-    required this.controller,
-  });
+  const UrlInputDialog({super.key, this.onUrlSubmitted});
 
-  static void show(BuildContext context, FilmEvaluationController controller) {
+  static void show(BuildContext context, Function(String)? onUrlSubmitted) {
     final urlController = TextEditingController();
 
     Get.dialog(
@@ -68,7 +64,7 @@ class UrlInputDialog extends StatelessWidget {
                       onPressed: () {
                         if (urlController.text.isNotEmpty) {
                           Get.back();
-                          controller.uploadFilm(urlController.text);
+                          onUrlSubmitted?.call(urlController.text);
                         }
                       },
                     ),

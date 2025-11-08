@@ -1,3 +1,4 @@
+import 'package:athleteiq/modules/dashboard/dashboard_screen.dart';
 import 'package:get/get.dart';
 
 import '../modules/splash/splash_screen.dart';

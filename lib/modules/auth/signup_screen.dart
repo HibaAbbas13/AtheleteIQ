@@ -48,7 +48,7 @@ class _SignupScreenState extends State<SignupScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Title
+            
                 SlideFromTopWidget(
                   child: Text(
                     'Create Account',
@@ -72,7 +72,6 @@ class _SignupScreenState extends State<SignupScreen> {
 
                 SizedBox(height: 32.h),
 
-                // Form Fields
                 SlideFromLeftWidget(
                   delay: const Duration(milliseconds: 400),
                   child: CustomTextField(
@@ -156,7 +155,6 @@ class _SignupScreenState extends State<SignupScreen> {
 
                 SizedBox(height: 32.h),
 
-                // Sign Up Button
                 FadeSlideWidget(
                   delay: const Duration(milliseconds: 700),
                   child: CustomButton(
@@ -169,7 +167,6 @@ class _SignupScreenState extends State<SignupScreen> {
 
                 SizedBox(height: 24.h),
 
-                // Terms
                 Text(
                   'By creating an account, you agree to our Terms of Service and Privacy Policy.',
                   style: AppTypography.kRegular12.copyWith(
@@ -180,7 +177,6 @@ class _SignupScreenState extends State<SignupScreen> {
 
                 SizedBox(height: 12.h),
 
-                // Sign In Link
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -211,10 +207,8 @@ class _SignupScreenState extends State<SignupScreen> {
 
   void _handleSignUp() {
     if (_formKey.currentState?.validate() ?? false) {
-      // TODO: Implement actual signup logic
       final authController = Get.find<AuthController>();
-      authController.login(); // Mark as logged in after signup
-      // Use Get.back() so AuthWrapper handles navigation to dashboard
+      authController.login();
       Get.back();
     }
   }

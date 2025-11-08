@@ -109,7 +109,6 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                       child: Stack(
                         alignment: Alignment.center,
                         children: [
-                          // Circular progress
                           SizedBox(
                             width: 170.w,
                             height: 170.w,
@@ -122,7 +121,6 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                               ),
                             ),
                           ),
-                          // Score text
                           Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
@@ -153,7 +151,6 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 32.h),
               child: Column(
                 children: [
-                  // Page indicator
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: List.generate(2, (index) {
@@ -185,10 +182,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
 
                   SizedBox(height: 32.h),
 
-                  // Navigation buttons
                   Row(
                     children: [
-                      // Back button
                       if (_currentPage > 0) ...[
                         Expanded(
                           child: CustomButton(
@@ -205,7 +200,6 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                         SizedBox(width: 16.w),
                       ],
 
-                      // Next/Get Started button
                       Expanded(
                         flex: _currentPage > 0 ? 1 : 2,
                         child: CustomButton(

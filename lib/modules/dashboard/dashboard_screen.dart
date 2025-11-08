@@ -1,80 +1,62 @@
-import 'package:athleteiq/controllers/navigation_controller.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:iconsax/iconsax.dart';
-import '../../data/app_colors.dart';
-import '../../data/app_typography.dart';
-import 'components/dashboard_content.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+import 'components/welcome_section.dart';
+import 'components/ai_score_card.dart';
+import 'components/tokens_card.dart';
+import 'components/performance_stats.dart';
+import 'components/quick_actions.dart';
+import 'components/ai_insights.dart';
+import 'components/recent_activity.dart';
 
 class DashboardScreen extends StatelessWidget {
   const DashboardScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final navigationController = Get.find<NavigationController>();
 
-    return Obx(
-      () => Scaffold(
-        backgroundColor: AppColors.white,
-        appBar: navigationController.currentIndex.value == 0
-            ? AppBar(
-                backgroundColor: Colors.transparent,
-                elevation: 0,
-                iconTheme: const IconThemeData(color: AppColors.black),
-                title: Text(
-                  'RecruitAI',
-                  style: AppTypography.kMontserratBold24.copyWith(
-                    color: AppColors.black,
-                  ),
-                ),
-                actions: [
-                  IconButton(
-                    onPressed: () {},
-                    icon: Icon(Iconsax.notification, color: AppColors.black),
-                  ),
-                ],
-              )
-            : null,
-        body: navigationController.currentIndex.value == 0
-            ? const DashboardContent()
-            : navigationController.getCurrentScreen(),
-        bottomNavigationBar: _buildBottomNavigationBar(navigationController),
-      ),
-    );
-  }
+    return SingleChildScrollView(
+      physics: const AlwaysScrollableScrollPhysics(),
+      padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 16.h),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const WelcomeSection(),
 
-  Widget _buildBottomNavigationBar(NavigationController controller) {
-    return Container(
-      decoration: BoxDecoration(
-        color: AppColors.white,
-        border: Border(top: BorderSide(color: AppColors.grey300, width: 1)),
-      ),
-      child: BottomNavigationBar(
-        currentIndex: controller.currentIndex.value,
-        onTap: (index) => controller.changePage(index),
-        backgroundColor: Colors.transparent,
-        selectedItemColor: AppColors.primaryBlue,
-        unselectedItemColor: AppColors.grey500,
-        showSelectedLabels: true,
-        showUnselectedLabels: true,
-        type: BottomNavigationBarType.fixed,
-        elevation: 0,
-        selectedLabelStyle: AppTypography.kMedium12,
-        unselectedLabelStyle: AppTypography.kMedium12,
-        items: const [
-          BottomNavigationBarItem(icon: Icon(Iconsax.home), label: 'Home'),
-          BottomNavigationBarItem(
-            icon: Icon(Iconsax.video_play),
-            label: 'Films',
+          SizedBox(height: 24.h),
+          Row(
+            children: [
+              Expanded(
+                flex: 2,
+                child: const AIScoreCard(),
+              ),
+              SizedBox(width: 16.w),
+              Expanded(
+                child: const TokensCard(),
+              ),
+            ],
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Iconsax.chart_1),
-            label: 'Leaderboard',
-          ),
-          BottomNavigationBarItem(icon: Icon(Iconsax.clock), label: 'History'),
-          BottomNavigationBarItem(icon: Icon(Iconsax.user), label: 'Profile'),
+
+          SizedBox(height: 24.h),
+
+          PerformanceStats(),
+
+          SizedBox(height: 32.h),
+
+          const QuickActions(),
+
+          SizedBox(height: 32.h),
+
+          const AIInsights(),
+
+          SizedBox(height: 32.h),
+
+          const RecentActivity(),
+
+          SizedBox(height: 24.h),
         ],
       ),
     );
   }
 }
+

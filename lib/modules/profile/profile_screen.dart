@@ -6,13 +6,13 @@ import 'package:iconsax/iconsax.dart';
 
 import '../../data/app_colors.dart';
 import '../../data/app_typography.dart';
-import '../../widgets/components/custom_card.dart';
 import '../../widgets/components/custom_button.dart';
 import '../../widgets/animations/animated_widgets.dart';
 import 'components/profile_stats_grid.dart';
 import 'components/profile_menu_card.dart';
-import 'components/account_settings_bottom_sheet.dart';
 import 'components/logout_dialog.dart';
+import 'edit_profile_screen.dart';
+import 'change_password_screen.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -109,15 +109,31 @@ class ProfileScreen extends StatelessWidget {
 
             SizedBox(height: 24.h),
 
+            // Edit Profile Option
             SlideFromLeftWidget(
               delay: const Duration(milliseconds: 400),
               begin: -0.1,
               child: ProfileMenuCard(
-                icon: Iconsax.setting_2,
-                title: 'Account settings',
-                subtitle: 'Edit your profile, picture or password',
-                color: AppColors.primaryOrange,
-                onTap: () => AccountSettingsBottomSheet.show(context),
+                icon: Iconsax.user_edit,
+                title: 'Edit Profile',
+                subtitle: 'Update your name and profile picture',
+                color: AppColors.primaryBlue,
+                onTap: () => Get.to(() => const EditProfileScreen()),
+              ),
+            ),
+
+            SizedBox(height: 16.h),
+
+            // Change Password Option
+            SlideFromLeftWidget(
+              delay: const Duration(milliseconds: 500),
+              begin: -0.1,
+              child: ProfileMenuCard(
+                icon: Iconsax.lock,
+                title: 'Change Password',
+                subtitle: 'Update your account password',
+                color: AppColors.primaryGreen,
+                onTap: () => Get.to(() => const ChangePasswordScreen()),
               ),
             ),
 

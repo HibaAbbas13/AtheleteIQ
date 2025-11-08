@@ -1,9 +1,10 @@
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../controllers/auth_controller.dart';
 import '../services/controller_manager.dart';
-import '../modules/dashboard/dashboard_screen.dart';
+import '../modules/bottom_nav_bar/bottom_nav_bar.dart';
 import '../modules/landing/landing_screen.dart';
 import '../modules/onboarding/onboarding_screen.dart';
 
@@ -18,10 +19,10 @@ class AuthWrapper extends StatelessWidget {
         return const OnboardingScreen();
       }
       final controllerManager = ControllerManager();
-      controllerManager.registerFeatureControllers();
+      controllerManager.registerControllers();
 
       if (authController.isLoggedIn.value) {
-        return const DashboardScreen();
+        return const BottomNavBar();
       } else {
         return const LandingScreen();
       }

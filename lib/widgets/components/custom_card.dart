@@ -3,6 +3,7 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../data/app_colors.dart';
+import '../animations/animated_widgets.dart';
 
 enum CardType { elevated, outlined, filled }
 
@@ -51,10 +52,12 @@ class CustomCard extends StatelessWidget {
       child: child,
     );
 
-    final animatedCard = card
-        .animate()
-        .fadeIn(duration: 400.ms, delay: 100.ms)
-        .slideY(begin: 0.1, end: 0, duration: 400.ms, curve: Curves.easeOut);
+    final animatedCard = FadeSlideWidget(
+      duration: const Duration(milliseconds: 400),
+      delay: const Duration(milliseconds: 100),
+      slideBegin: 0.1,
+      child: card,
+    );
 
     if (onTap != null) {
       return InkWell(

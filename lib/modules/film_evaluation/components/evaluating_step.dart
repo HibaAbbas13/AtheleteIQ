@@ -14,7 +14,6 @@ class EvaluatingStep extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          // Animated analyzing icon
           Container(
             width: 120.w,
             height: 120.w,
@@ -62,8 +61,7 @@ class EvaluatingStep extends StatelessWidget {
           ),
 
           SizedBox(height: 48.h),
-
-          // Progress indicator
+  
           SizedBox(
             width: 200.w,
             child: LinearProgressIndicator(

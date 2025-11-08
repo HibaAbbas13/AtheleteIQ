@@ -1,33 +1,30 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 
-import '../../../controllers/film_evaluation_controller.dart';
 import '../../../data/app_colors.dart';
 import '../../../widgets/components/custom_button.dart';
 import '../../../widgets/components/custom_card.dart';
 import '../../../widgets/animations/animated_widgets.dart';
 
 class ResultsStep extends StatelessWidget {
-  final FilmEvaluationController controller;
+  final Map<String, dynamic> result;
+  final VoidCallback? onReset;
 
   const ResultsStep({
     super.key,
-    required this.controller,
+    required this.result,
+    this.onReset,
   });
 
   @override
   Widget build(BuildContext context) {
-    final result = Map<String, dynamic>.from(controller.evaluationResult);
-
     return SingleChildScrollView(
       padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 32.h),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Success header
           SlideFromTopWidget(
             child: Row(
               children: [
@@ -73,7 +70,6 @@ class ResultsStep extends StatelessWidget {
 
           SizedBox(height: 32.h),
 
-          // Score display
           ScaleFadeWidget(
             delay: const Duration(milliseconds: 200),
             child: Center(
@@ -89,7 +85,6 @@ class ResultsStep extends StatelessWidget {
 
           SizedBox(height: 32.h),
 
-          // Feedback section
           FadeSlideWidget(
             delay: const Duration(milliseconds: 300),
             child: CustomCard(
@@ -122,7 +117,6 @@ class ResultsStep extends StatelessWidget {
 
           SizedBox(height: 24.h),
 
-          // Tokens earned
           FadeSlideWidget(
             delay: const Duration(milliseconds: 400),
             child: CustomCard(
@@ -153,8 +147,7 @@ class ResultsStep extends StatelessWidget {
           ),
 
           SizedBox(height: 24.h),
-
-          // Suggested drill
+      
           if (result['drillSuggestion'] != null)
             FadeSlideWidget(
               delay: const Duration(milliseconds: 500),
@@ -215,7 +208,7 @@ class ResultsStep extends StatelessWidget {
                   child: CustomButton(
                     text: 'Upload Another',
                     type: ButtonType.outline,
-                    onPressed: () => controller.resetEvaluation(),
+                    onPressed: onReset,
                   ),
                 ),
                 SizedBox(width: 16.w),

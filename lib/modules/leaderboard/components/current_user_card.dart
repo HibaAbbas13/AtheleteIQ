@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../data/app_colors.dart';
 import '../../../widgets/components/custom_card.dart';
+import '../../../widgets/animations/animated_widgets.dart';
 
 class CurrentUserCard extends StatelessWidget {
   final int rank;
@@ -21,7 +21,10 @@ class CurrentUserCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CustomCard(
+    return FadeSlideWidget(
+      duration: const Duration(milliseconds: 600),
+      slideBegin: 0.2,
+      child: CustomCard(
           type: CardType.outlined,
           child: Row(
             children: [
@@ -104,9 +107,7 @@ class CurrentUserCard extends StatelessWidget {
               ),
             ],
           ),
-        )
-        .animate()
-        .fadeIn(duration: 600.ms)
-        .slideY(begin: 0.2, end: 0, duration: 600.ms, curve: Curves.easeOut);
+        ),
+    );
   }
 }

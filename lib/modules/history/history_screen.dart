@@ -42,7 +42,6 @@ class HistoryScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Stats Summary
               Row(
                 children: [
                   Expanded(
@@ -67,7 +66,6 @@ class HistoryScreen extends StatelessWidget {
 
               SizedBox(height: 24.h),
 
-              // Section header
               Text(
                 'Recent Activity',
                 style: AppTypography.kSemiBold18.copyWith(
@@ -77,7 +75,6 @@ class HistoryScreen extends StatelessWidget {
 
               SizedBox(height: 16.h),
 
-              // Activity list
               HistoryActivityItem(
                 date: 'Today, 2:45 PM',
                 title: 'Film Evaluation Completed',

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
@@ -7,6 +6,7 @@ import 'package:iconsax/iconsax.dart';
 import '../../../data/app_colors.dart';
 import '../../../data/app_typography.dart';
 import '../../../widgets/components/custom_card.dart';
+import '../../../widgets/animations/animated_widgets.dart';
 import '../../film_evaluation/film_evaluation_screen.dart';
 import '../../leaderboard/leaderboard_screen.dart';
 
@@ -15,7 +15,11 @@ class QuickActions extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return FadeSlideWidget(
+      duration: const Duration(milliseconds: 600),
+      delay: const Duration(milliseconds: 600),
+      slideBegin: 0.2,
+      child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
@@ -45,10 +49,8 @@ class QuickActions extends StatelessWidget {
               ],
             ),
           ],
-        )
-        .animate()
-        .fadeIn(duration: 600.ms, delay: 600.ms)
-        .slideY(begin: 0.2, end: 0, duration: 600.ms, curve: Curves.easeOut);
+        ),
+    );
   }
 }
 
@@ -68,7 +70,9 @@ class ActionCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
+    return ScaleFadeWidget(
+      duration: const Duration(milliseconds: 300),
+      child: GestureDetector(
           onTap: onTap,
           child: CustomCard(
             type: CardType.outlined,
@@ -102,9 +106,7 @@ class ActionCard extends StatelessWidget {
               ],
             ),
           ),
-        )
-        .animate()
-        .scale(duration: 200.ms, curve: Curves.easeOut)
-        .fadeIn(duration: 300.ms);
+        ),
+    );
   }
 }

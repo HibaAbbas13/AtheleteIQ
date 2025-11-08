@@ -1,9 +1,6 @@
 import 'package:get/get.dart';
 
 import '../controllers/auth_controller.dart';
-import '../controllers/dashboard_controller.dart';
-import '../controllers/film_evaluation_controller.dart';
-import '../controllers/leaderboard_controller.dart';
 import '../controllers/navigation_controller.dart';
 import '../controllers/onboarding_controller.dart';
 import '../controllers/user_controller.dart';
@@ -35,38 +32,11 @@ class ControllerManager {
     }
   }
 
-  void registerFeatureControllers() {
-    if (!Get.isRegistered<DashboardController>()) {
-      Get.put(DashboardController(), permanent: true);
-    }
-
-    if (!Get.isRegistered<FilmEvaluationController>()) {
-      Get.put(FilmEvaluationController(), permanent: true);
-    }
-
-    if (!Get.isRegistered<LeaderboardController>()) {
-      Get.put(LeaderboardController(), permanent: true);
-    }
-  }
-
   void registerControllers() {
     registerEssentialControllers();
-    registerFeatureControllers();
   }
 
   void unregisterControllers() {
-    if (Get.isRegistered<DashboardController>()) {
-      Get.delete<DashboardController>(force: true);
-    }
-
-    if (Get.isRegistered<FilmEvaluationController>()) {
-      Get.delete<FilmEvaluationController>(force: true);
-    }
-
-    if (Get.isRegistered<LeaderboardController>()) {
-      Get.delete<LeaderboardController>(force: true);
-    }
-
     if (Get.isRegistered<AuthController>()) {
       Get.delete<AuthController>(force: true);
     }

@@ -1,3 +1,6 @@
+import 'package:athleteiq/models/evaluation.dart';
+import 'package:athleteiq/models/leaderboard_entry.dart'; 
+import 'package:athleteiq/models/drill_suggestion.dart';
 import '../models/user_model.dart';
 import '../data/enums/user_role.dart';
 import '../data/enums/sports_type.dart';

@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:iconsax/iconsax.dart';
 
-import '../../../controllers/film_evaluation_controller.dart';
 import '../../../data/app_colors.dart';
 import '../../../widgets/components/custom_button.dart';
 import '../../../widgets/components/custom_card.dart';
@@ -12,12 +10,9 @@ import 'url_input_dialog.dart';
 import 'tip_item.dart';
 
 class UploadStep extends StatelessWidget {
-  final FilmEvaluationController controller;
-
-  const UploadStep({
-    super.key,
-    required this.controller,
-  });
+  final Function(String)? onUpload;
+  
+  const UploadStep({super.key, this.onUpload});
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +21,7 @@ class UploadStep extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Header
+        
           SlideFromTopWidget(
             child: Text(
               'Upload Your Film',
@@ -50,7 +45,6 @@ class UploadStep extends StatelessWidget {
 
           SizedBox(height: 48.h),
 
-          // Upload options
           FadeSlideWidget(
             delay: const Duration(milliseconds: 200),
             child: CustomCard(
@@ -74,12 +68,11 @@ class UploadStep extends StatelessWidget {
                   ),
                   SizedBox(height: 24.h),
 
-                  // URL input option
                   CustomButton(
                     text: 'Paste Video URL',
                     type: ButtonType.outline,
                     icon: Iconsax.link,
-                    onPressed: () => UrlInputDialog.show(context, controller),
+                    onPressed: () => UrlInputDialog.show(context, onUpload),
                   ),
 
                   SizedBox(height: 16.h),
@@ -94,11 +87,10 @@ class UploadStep extends StatelessWidget {
 
                   SizedBox(height: 16.h),
 
-                  // File upload option
                   CustomButton(
                     text: 'Upload from Device',
                     icon: Iconsax.document_upload,
-                    onPressed: () => _handleFileUpload(controller),
+                    onPressed: () => _handleFileUpload(context),
                   ),
                 ],
               ),
@@ -107,7 +99,6 @@ class UploadStep extends StatelessWidget {
 
           SizedBox(height: 32.h),
 
-          // Tips section
           FadeSlideWidget(
             delay: const Duration(milliseconds: 300),
             child: CustomCard(
@@ -148,10 +139,12 @@ class UploadStep extends StatelessWidget {
     );
   }
 
-  void _handleFileUpload(FilmEvaluationController controller) {
+  void _handleFileUpload(BuildContext context) {
     // TODO: Implement file picker
     // For now, simulate upload
-    controller.uploadFilm('file://simulated_upload.mp4');
+    if (onUpload != null) {
+      onUpload!('file://simulated_upload.mp4');
+    }
   }
 }
 

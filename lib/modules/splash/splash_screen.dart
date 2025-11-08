@@ -41,12 +41,10 @@ class _SplashScreenState extends State<SplashScreen> {
       body: Container(
         child: Stack(
           children: [
-            // Main content
             Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  // Logo/icon
                   ScaleInWidget(
                     duration: const Duration(milliseconds: 800),
                     curve: Curves.elasticOut,
@@ -66,8 +64,6 @@ class _SplashScreenState extends State<SplashScreen> {
                   ),
 
                   SizedBox(height: 48.h),
-
-                  // Title
                   SlideFromTopWidget(
                     duration: const Duration(milliseconds: 800),
                     delay: const Duration(milliseconds: 300),
@@ -82,7 +78,6 @@ class _SplashScreenState extends State<SplashScreen> {
 
                   SizedBox(height: 16.h),
 
-                  // Subtitle
                   SlideFromTopWidget(
                     duration: const Duration(milliseconds: 800),
                     delay: const Duration(milliseconds: 500),
@@ -98,7 +93,6 @@ class _SplashScreenState extends State<SplashScreen> {
 
                   SizedBox(height: 64.h),
 
-                  // Loading indicator
                   FadeInWidget(
                     duration: const Duration(milliseconds: 600),
                     delay: const Duration(milliseconds: 700),
@@ -134,14 +128,12 @@ class _SplashScreenState extends State<SplashScreen> {
               ),
             ),
 
-            // Bottom tagline
             Positioned(
               bottom: 48.h,
               left: 0,
               right: 0,
               child: Column(
                 children: [
-                  // CPU icon with repeating animation (keep manual for repeat)
                   Icon(Iconsax.cpu, color: AppColors.grey400, size: 24.w)
                       .animate(onPlay: (controller) => controller.repeat())
                       .fadeIn(duration: 1000.ms)

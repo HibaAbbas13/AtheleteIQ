@@ -1,17 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:iconsax/iconsax.dart';
 import '../../../data/app_colors.dart';
 import '../../../data/app_typography.dart';
 import '../../../widgets/components/custom_card.dart';
+import '../../../widgets/animations/animated_widgets.dart';
 
 class WelcomeSection extends StatelessWidget {
   const WelcomeSection({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return CustomCard(
+    return FadeSlideWidget(
+      duration: const Duration(milliseconds: 600),
+      slideBegin: 0.2,
+      child: CustomCard(
           type: CardType.outlined,
           child: Row(
             children: [
@@ -47,9 +50,7 @@ class WelcomeSection extends StatelessWidget {
               ),
             ],
           ),
-        )
-        .animate()
-        .fadeIn(duration: 600.ms)
-        .slideY(begin: 0.2, end: 0, duration: 600.ms, curve: Curves.easeOut);
+        ),
+    );
   }
 }

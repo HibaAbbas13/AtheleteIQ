@@ -1,6 +1,5 @@
 import 'package:athleteiq/controllers/auth_controller.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
@@ -8,6 +7,7 @@ import '../../data/app_colors.dart';
 import 'signup_screen.dart';
 import '../../widgets/components/custom_button.dart';
 import '../../widgets/components/custom_input.dart';
+import '../../widgets/animations/animated_widgets.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -20,6 +20,7 @@ class _LoginScreenState extends State<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+  final authController = Get.find<AuthController>();
 
   @override
   void dispose() {
@@ -30,8 +31,6 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final authController = Get.find<AuthController>();
-
     return Scaffold(
       backgroundColor: AppColors.white,
       appBar: AppBar(
@@ -47,40 +46,33 @@ class _LoginScreenState extends State<LoginScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                      'Welcome Back',
-                      style: TextStyle(
-                        fontSize: 32.sp,
-                        fontWeight: FontWeight.bold,
-                        color: AppColors.black,
-                      ),
-                    )
-                    .animate()
-                    .fadeIn(duration: 600.ms)
-                    .slideY(
-                      begin: 0.3,
-                      end: 0,
-                      duration: 600.ms,
-                      curve: Curves.easeOut,
+                FadeSlideWidget(
+                  duration: const Duration(milliseconds: 600),
+                  slideBegin: 0.3,
+                  child: Text(
+                    'Welcome Back',
+                    style: TextStyle(
+                      fontSize: 32.sp,
+                      fontWeight: FontWeight.bold,
+                      color: AppColors.black,
                     ),
+                  ),
+                ),
 
                 SizedBox(height: 8.h),
 
-                Text(
-                      'Sign in to your ${authController.userRole == 'athlete' ? 'athlete' : 'parent'} account',
-                      style: TextStyle(
-                        fontSize: 16.sp,
-                        color: AppColors.grey600,
-                      ),
-                    )
-                    .animate()
-                    .fadeIn(duration: 600.ms, delay: 100.ms)
-                    .slideY(
-                      begin: 0.3,
-                      end: 0,
-                      duration: 600.ms,
-                      curve: Curves.easeOut,
+                FadeSlideWidget(
+                  duration: const Duration(milliseconds: 600),
+                  delay: const Duration(milliseconds: 100),
+                  slideBegin: 0.3,
+                  child: Text(
+                    'Sign in to your ${authController.userRole == 'athlete' ? 'athlete' : 'parent'} account',
+                    style: TextStyle(
+                      fontSize: 16.sp,
+                      color: AppColors.grey600,
                     ),
+                  ),
+                ),
 
                 SizedBox(height: 48.h),
 

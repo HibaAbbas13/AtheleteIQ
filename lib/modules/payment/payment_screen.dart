@@ -21,7 +21,7 @@ class PaymentScreen extends StatefulWidget {
 
 class _PaymentScreenState extends State<PaymentScreen> {
   String _selectedPlan = 'monthly';
-  int _selectedTier = 1; // 0: Basic, 1: Pro, 2: Elite
+  int _selectedTier = 1;
 
   final List<Map<String, dynamic>> _plans = [
     {
@@ -93,7 +93,6 @@ class _PaymentScreenState extends State<PaymentScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Billing period toggle
             BillingToggle(
               selectedPlan: _selectedPlan,
               onPlanChanged: (plan) => setState(() => _selectedPlan = plan),
@@ -101,7 +100,6 @@ class _PaymentScreenState extends State<PaymentScreen> {
 
             SizedBox(height: 32.h),
 
-            // Plans
             ...List.generate(_plans.length, (index) {
               return Padding(
                 padding: EdgeInsets.only(bottom: 20.h),
@@ -116,12 +114,10 @@ class _PaymentScreenState extends State<PaymentScreen> {
 
             SizedBox(height: 24.h),
 
-            // Features comparison
             const FeaturesSection(),
 
             SizedBox(height: 32.h),
 
-            // CTA Button
             FadeSlideWidget(
               delay: const Duration(milliseconds: 400),
               child: GradientButton(
@@ -134,7 +130,6 @@ class _PaymentScreenState extends State<PaymentScreen> {
 
             SizedBox(height: 16.h),
 
-            // Security note
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -157,7 +152,6 @@ class _PaymentScreenState extends State<PaymentScreen> {
   }
 
   void _handleSubscribe() {
-    // TODO: Integrate with Stripe
     Get.snackbar(
       'Subscription',
       'Redirecting to Stripe checkout...',

@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
 import '../../data/app_colors.dart';
+import '../../widgets/animations/animated_widgets.dart';
 
 enum ButtonType { primary, secondary, outline, gradient }
 
@@ -34,18 +33,19 @@ class CustomButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: width ?? _getWidth(),
-      height: height ?? _getHeight(),
-      child:
-          ElevatedButton(
-                onPressed: (isDisabled || isLoading) ? null : onPressed,
-                style: _getButtonStyle(context),
-                child: _buildChild(),
-              )
-              .animate()
-              .scale(duration: 200.ms, curve: Curves.easeOut)
-              .fadeIn(duration: 300.ms),
+    final buttonHeight = _getHeight();
+    
+    return ScaleFadeWidget(
+      duration: const Duration(milliseconds: 300),
+      child: SizedBox(
+        width: width ?? _getWidth(),
+        height: buttonHeight,
+        child: ElevatedButton(
+          onPressed: (isDisabled || isLoading) ? null : onPressed,
+          style: _getButtonStyle(context),
+          child: _buildChild(),
+        ),
+      ),
     );
   }
 
@@ -142,7 +142,9 @@ class CustomButton extends StatelessWidget {
             fontSize: _getFontSize(),
             fontWeight: FontWeight.w600,
           ),
-          overflow: TextOverflow.ellipsis,
+          overflow: TextOverflow.visible,
+          textAlign: TextAlign.center,
+          maxLines: 2,
         ),
       ),
     );
@@ -159,16 +161,10 @@ class CustomButton extends StatelessWidget {
     return size == ButtonSize.small ? 120.w : double.infinity;
   }
 
-  double _getHeight() {
+  double? _getHeight() {
     if (height != null) return height!;
-    switch (size) {
-      case ButtonSize.small:
-        return 36.h;
-      case ButtonSize.medium:
-        return 48.h;
-      case ButtonSize.large:
-        return 56.h;
-    }
+    // Return null to allow button to size based on content
+    return null;
   }
 
   double _getHorizontalPadding() {
@@ -235,69 +231,69 @@ class GradientButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-          width: double.infinity,
-          height: 48.h,
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              colors: gradientColors,
-              begin: Alignment.centerLeft,
-              end: Alignment.centerRight,
-            ),
-            borderRadius: BorderRadius.circular(12.r),
-            boxShadow: [
-              BoxShadow(
-                color: gradientColors.first.withOpacity(0.3),
-                blurRadius: 8,
-                offset: Offset(0, 4),
-              ),
-            ],
+    return ScaleFadeWidget(
+      duration: const Duration(milliseconds: 300),
+      child: Container(
+        width: double.infinity,
+        height: 48.h,
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: gradientColors,
+            begin: Alignment.centerLeft,
+            end: Alignment.centerRight,
           ),
-          child: ElevatedButton(
-            onPressed: isLoading ? null : onPressed,
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.transparent,
-              shadowColor: Colors.transparent,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12.r),
-              ),
+          borderRadius: BorderRadius.circular(12.r),
+          boxShadow: [
+            BoxShadow(
+              color: gradientColors.first.withOpacity(0.3),
+              blurRadius: 8,
+              offset: Offset(0, 4),
             ),
-            child: isLoading
-                ? SizedBox(
-                    width: 20.w,
-                    height: 20.w,
-                    child: const CircularProgressIndicator(
-                      strokeWidth: 2,
-                      valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-                    ),
-                  )
-                : Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      if (icon != null) ...[
-                        Icon(icon, size: 20.w),
-                        SizedBox(width: 8.w),
-                      ],
-                      Flexible(
-                        child: Text(
-                          text,
-                          style: TextStyle(
-                            fontSize: 16.sp,
-                            fontWeight: FontWeight.w600,
-                            color: Colors.white,
-                          ),
-                          overflow: TextOverflow.ellipsis,
-                          textAlign: TextAlign.center,
-                        ),
-                      ),
-                    ],
+          ],
+        ),
+        child: ElevatedButton(
+          onPressed: isLoading ? null : onPressed,
+          style: ElevatedButton.styleFrom(
+            backgroundColor: Colors.transparent,
+            shadowColor: Colors.transparent,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12.r),
+            ),
+          ),
+          child: isLoading
+              ? SizedBox(
+                  width: 20.w,
+                  height: 20.w,
+                  child: const CircularProgressIndicator(
+                    strokeWidth: 2,
+                    valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
                   ),
-          ),
-        )
-        .animate()
-        .scale(duration: 200.ms, curve: Curves.easeOut)
-        .fadeIn(duration: 300.ms);
+                )
+              : Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    if (icon != null) ...[
+                      Icon(icon, size: 20.w),
+                      SizedBox(width: 8.w),
+                    ],
+                    Flexible(
+                      child: Text(
+                        text,
+                        style: TextStyle(
+                          fontSize: 16.sp,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.white,
+                        ),
+                        overflow: TextOverflow.ellipsis,
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  ],
+                ),
+        ),
+      ),
+    );
   }
 }
 
@@ -322,36 +318,36 @@ class CustomIconButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-          width: size.w,
-          height: size.w,
-          decoration: BoxDecoration(
-            color: backgroundColor ?? AppColors.surfaceLight,
-            borderRadius: BorderRadius.circular(12.r),
-            border: Border.all(color: AppColors.borderLight),
-          ),
-          child: IconButton(
-            onPressed: isLoading ? null : onPressed,
-            icon: isLoading
-                ? SizedBox(
-                    width: 20.w,
-                    height: 20.w,
-                    child: CircularProgressIndicator(
-                      strokeWidth: 2,
-                      valueColor: AlwaysStoppedAnimation<Color>(
-                        color ?? AppColors.primaryBlue,
-                      ),
+    return ScaleFadeWidget(
+      duration: const Duration(milliseconds: 300),
+      child: Container(
+        width: size.w,
+        height: size.w,
+        decoration: BoxDecoration(
+          color: backgroundColor ?? AppColors.surfaceLight,
+          borderRadius: BorderRadius.circular(12.r),
+          border: Border.all(color: AppColors.borderLight),
+        ),
+        child: IconButton(
+          onPressed: isLoading ? null : onPressed,
+          icon: isLoading
+              ? SizedBox(
+                  width: 20.w,
+                  height: 20.w,
+                  child: CircularProgressIndicator(
+                    strokeWidth: 2,
+                    valueColor: AlwaysStoppedAnimation<Color>(
+                      color ?? AppColors.primaryBlue,
                     ),
-                  )
-                : Icon(
-                    icon,
-                    color: color ?? AppColors.primaryBlue,
-                    size: (size * 0.6).w,
                   ),
-          ),
-        )
-        .animate()
-        .scale(duration: 200.ms, curve: Curves.easeOut)
-        .fadeIn(duration: 300.ms);
+                )
+              : Icon(
+                  icon,
+                  color: color ?? AppColors.primaryBlue,
+                  size: (size * 0.6).w,
+                ),
+        ),
+      ),
+    );
   }
 }

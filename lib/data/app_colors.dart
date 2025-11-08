@@ -2,15 +2,15 @@ import 'package:flutter/material.dart';
 
 class AppColors {
   // Primary Colors
-  static const Color primaryNeonOrange = Color(0xFFFF3C00);
-  static const Color primaryNeonCyan = Color(0xFF00FFC6); // Primary neon cyan
+  static const Color primaryNeonOrange = Color.fromARGB(96, 255, 60, 0);
+  static const Color primaryNeonCyan = Color.fromARGB(59, 0, 255, 200); // Primary neon cyan
   static const Color primaryBlue = Color(0xFF1E3A8A); // Legacy support
-  static const Color primaryOrange = Color(0xFFFF6B35); // Legacy support
-  static const Color primaryGreen = Color(0xFF10B981); // Success green
+  static const Color primaryOrange = Color.fromARGB(216, 222, 132, 99); // Legacy support
+  static const Color primaryGreen = Color.fromARGB(100, 16, 185, 129); // Success green
 
   // Secondary Colors
-  static const Color secondaryBlue = Color(0xFF3B82F6); // Bright blue
-
+  static const Color secondaryBlue = Color.fromARGB(153, 59, 130, 246); // Bright blue
+  
   // Accent Colors
   static const Color accentYellow = Color(0xFFF59E0B); // Achievement yellow
   static const Color accentPurple = Color(0xFF8B5CF6); // Premium purple
@@ -57,15 +57,15 @@ class AppColors {
   static const Color warning = Color(0xFFF59E0B);
   static const Color info = Color(0xFF3B82F6);
 
-  // Leaderboard Tier Colors - Glowing Neon Variants
-  static const Color bronzeTier = Color(0xFFCD7F32);
-  static const Color bronzeTierGlow = Color(0xFFFF8C42); // Glowing bronze
-  static const Color silverTier = Color(0xFFC0C0C0);
-  static const Color silverTierGlow = Color(0xFFE8E8E8); // Glowing silver
-  static const Color goldTier = Color(0xFFFFD700);
-  static const Color goldTierGlow = Color(0xFFFFF700); // Glowing gold
-  static const Color platinumTier = Color(0xFFE5E4E2);
-  static const Color platinumTierGlow = Color(0xFF00FFC6); // Neon cyan glow
+  // Leaderboard Tier Colors - More Realistic Medals
+  static const Color bronzeTier = Color(0xFFCD7F32); // Realistic bronze
+  static const Color bronzeTierGlow = Color(0xFFE09D63); // Muted glowing bronze
+  static const Color silverTier = Color(0xFFC0C0C0); // Realistic silver
+  static const Color silverTierGlow = Color(0xFFDBDBDB); // Slightly muted silver glow
+  static const Color goldTier = Color(0xFFFFD700); // Real gold
+  static const Color goldTierGlow = Color(0xFFE6C200); // Muted glowing gold
+  static const Color platinumTier = Color(0xFFE5E4E2); // Realistic platinum
+  static const Color platinumTierGlow = Color.fromARGB(197, 136, 248, 246); // Pale cyan-platinum glow
 
   // Gradient Colors for special effects - RecruitAI Style
   static List<Color> primaryGradient = [
