@@ -4,6 +4,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import '../../data/app_colors.dart';
+import '../../services/shared_preference.dart';
+import '../../services/auth_service.dart';
 import 'signup_screen.dart';
 import '../../widgets/components/custom_button.dart';
 import '../../widgets/components/custom_input.dart';
@@ -21,6 +23,8 @@ class _LoginScreenState extends State<LoginScreen> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final authController = Get.find<AuthController>();
+  final authService = AuthService();
+  bool _isLoading = false;
 
   @override
   void dispose() {
@@ -66,7 +70,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   delay: const Duration(milliseconds: 100),
                   slideBegin: 0.3,
                   child: Text(
-                    'Sign in to your ${authController.userRole == 'athlete' ? 'athlete' : 'parent'} account',
+                    'Sign in to your account',
                     style: TextStyle(
                       fontSize: 16.sp,
                       color: AppColors.grey600,
@@ -135,7 +139,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
                 CustomButton(
                   text: 'Sign In',
-                  isLoading: false,
+                  isLoading: _isLoading,
                   onPressed: () => _handleSignIn(),
                 ),
 
@@ -195,13 +199,56 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  void _handleSignIn() {
+  Future<void> _handleSignIn() async {
     if (_formKey.currentState?.validate() ?? false) {
-      // TODO: Implement actual login logic
-      final authController = Get.find<AuthController>();
-      authController.login();
-      // Use Get.back() so AuthWrapper handles navigation to dashboard
-      Get.back();
+      setState(() {
+        _isLoading = true;
+      });
+
+      try {
+        final result = await authService.signInWithEmailAndPassword(
+          _emailController.text.trim(),
+          _passwordController.text,
+        );
+
+        if (result.success && result.user != null) {
+          print('[LoginScreen] Login successful! User: ${result.user?.name}, IsParentLogin: ${result.isParentLogin}');
+          if (result.isParentLogin) {
+            await SharedPreferencesService.setUserRole('parent');
+          } else {
+            await SharedPreferencesService.setUserRole('athlete');
+          }
+
+          _passwordController.clear();
+          
+          // Navigate back to let AuthWrapper handle navigation
+          print('[LoginScreen] Navigating back to AuthWrapper...');
+          Get.back();
+        } else {
+          print('[LoginScreen] Login failed: ${result.error}');
+          Get.snackbar(
+            'Login Failed',
+            result.error ?? 'An error occurred during login',
+            snackPosition: SnackPosition.BOTTOM,
+            backgroundColor: AppColors.error,
+            colorText: Colors.white,
+            duration: const Duration(seconds: 3),
+          );
+        }
+      } catch (e) {
+        Get.snackbar(
+          'Error',
+          'An unexpected error occurred: ${e.toString()}',
+          snackPosition: SnackPosition.BOTTOM,
+          backgroundColor: AppColors.error,
+          colorText: Colors.white,
+          duration: const Duration(seconds: 3),
+        );
+      } finally {
+        setState(() {
+          _isLoading = false;
+        });
+      }
     }
   }
 }

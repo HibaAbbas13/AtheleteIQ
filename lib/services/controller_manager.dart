@@ -4,6 +4,7 @@ import '../controllers/auth_controller.dart';
 import '../controllers/navigation_controller.dart';
 import '../controllers/onboarding_controller.dart';
 import '../controllers/user_controller.dart';
+import '../controllers/parent_controller.dart';
 
 class ControllerManager {
   static final ControllerManager _instance = ControllerManager._internal();
@@ -30,17 +31,36 @@ class ControllerManager {
     if (!Get.isRegistered<UserController>()) {
       Get.put(UserController(), permanent: true);
     }
+
+    if (!Get.isRegistered<ParentController>()) {
+      Get.put(ParentController(), permanent: true);
+    }
   }
 
   void registerControllers() {
     registerEssentialControllers();
   }
 
-  void unregisterControllers() {
-    if (Get.isRegistered<AuthController>()) {
-      Get.delete<AuthController>(force: true);
+  void resetControllers() {
+    if (Get.isRegistered<UserController>()) {
+        Get.find<UserController>().clearUser();
     }
 
+    if (Get.isRegistered<ParentController>()) {
+        Get.find<ParentController>().reset();
+    }
+
+    if (Get.isRegistered<NavigationController>()) {
+        Get.find<NavigationController>().reset();
+    }
+
+    if (Get.isRegistered<AuthController>()) {
+        Get.find<AuthController>().reset();
+    }
+  }
+
+  void unregisterControllers() {
+    resetControllers();
     if (Get.isRegistered<NavigationController>()) {
       Get.delete<NavigationController>(force: true);
     }
@@ -51,6 +71,10 @@ class ControllerManager {
 
     if (Get.isRegistered<UserController>()) {
       Get.delete<UserController>(force: true);
+    }
+
+    if (Get.isRegistered<ParentController>()) {
+      Get.delete<ParentController>(force: true);
     }
   }
 }

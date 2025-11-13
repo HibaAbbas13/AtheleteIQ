@@ -15,7 +15,7 @@ class TokensCard extends StatelessWidget {
     // Use first user's tokens from static data as default
     final users = StaticData.sampleUsers;
     if (users.isNotEmpty) {
-      return users.first.tokens;
+      //return users.first.parents.first.userModel.tokens;
     }
     return 15; // Default tokens
   }

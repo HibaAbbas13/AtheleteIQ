@@ -15,7 +15,7 @@ class AIScoreCard extends StatelessWidget {
   int get score {
     final users = StaticData.sampleUsers;
     if (users.isNotEmpty) {
-      return users.first.aiScore;
+      //return users.first.parents.first.userModel.aiScore;
     }
       return 82;
   }

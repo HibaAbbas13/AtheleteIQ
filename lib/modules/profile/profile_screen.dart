@@ -13,6 +13,9 @@ import 'components/profile_menu_card.dart';
 import 'components/logout_dialog.dart';
 import 'edit_profile_screen.dart';
 import 'change_password_screen.dart';
+import 'manage_parents_screen.dart';
+import '../../data/enums/user_role.dart';
+import '../../controllers/auth_controller.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -20,6 +23,7 @@ class ProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final userController = Get.find<UserController>();
+    final authController = Get.find<AuthController>();
 
     return Scaffold(
       backgroundColor: AppColors.white,
@@ -136,6 +140,32 @@ class ProfileScreen extends StatelessWidget {
                 onTap: () => Get.to(() => const ChangePasswordScreen()),
               ),
             ),
+            Obx(() {
+              final currentUser = userController.currentUser.value;
+              final isAthlete = currentUser?.role == UserRole.athlete;
+              final isParentLogin = authController.isLoggedInAsParent;
+              
+              // Show manage parents option only for athletes (not when parent is logged in)
+              if (isAthlete && !isParentLogin) {
+                return Column(
+                  children: [
+                    SizedBox(height: 16.h),
+                    SlideFromLeftWidget(
+                      delay: const Duration(milliseconds: 600),
+                      begin: -0.1,
+                      child: ProfileMenuCard(
+                        icon: Iconsax.people,
+                        title: 'Manage Parents',
+                        subtitle: 'Add or remove parent accounts',
+                        color: AppColors.primaryOrange,
+                        onTap: () => Get.to(() => const ManageParentsScreen()),
+                      ),
+                    ),
+                  ],
+                );
+              }
+              return const SizedBox.shrink();
+            }),
 
             SizedBox(height: 32.h),
             FadeInWidget(

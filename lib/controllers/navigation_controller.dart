@@ -1,7 +1,6 @@
 import 'package:athleteiq/modules/dashboard/dashboard_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../modules/bottom_nav_bar/bottom_nav_bar.dart';
 import '../modules/film_evaluation/film_evaluation_screen.dart';
 import '../modules/leaderboard/leaderboard_screen.dart';
 import '../modules/profile/profile_screen.dart';
@@ -29,5 +28,9 @@ class NavigationController extends GetxController {
       default:
         return const DashboardScreen();
     }
+  }
+
+  void reset() {
+    currentIndex.value = 0;
   }
 }

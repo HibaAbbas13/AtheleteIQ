@@ -3,10 +3,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 
-import '../../../controllers/auth_controller.dart';
 import '../../../data/app_colors.dart';
 import '../../../data/app_typography.dart';
 import '../../../widgets/components/custom_button.dart';
+import '../../../services/auth_service.dart';
 
 class LogoutDialog extends StatelessWidget {
   const LogoutDialog({super.key});
@@ -56,8 +56,8 @@ class LogoutDialog extends StatelessWidget {
                     text: 'Sign Out',
                     onPressed: () {
                       Get.back();
-                      final authController = Get.find<AuthController>();
-                      authController.logout();
+                      final authService = AuthService();
+                      authService.signOut();
                     },
                   ),
                 ),

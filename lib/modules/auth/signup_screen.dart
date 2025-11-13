@@ -1,4 +1,3 @@
-import 'package:athleteiq/controllers/auth_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -9,6 +8,9 @@ import '../../data/app_typography.dart';
 import '../../widgets/components/custom_button.dart';
 import '../../widgets/components/custom_input.dart';
 import '../../widgets/animations/animated_widgets.dart';
+import '../../services/auth_service.dart';
+import '../../services/auth_wrapper.dart';
+import '../../services/shared_preference.dart';
 
 class SignupScreen extends StatefulWidget {
   const SignupScreen({super.key});
@@ -22,6 +24,8 @@ class _SignupScreenState extends State<SignupScreen> {
   final _nameController = TextEditingController();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+  final authService = AuthService();
+  bool _isLoading = false;
 
   @override
   void dispose() {
@@ -160,7 +164,7 @@ class _SignupScreenState extends State<SignupScreen> {
                   child: CustomButton(
                     text: 'Create Account',
                     type: ButtonType.primary,
-                    isLoading: false,
+                    isLoading: _isLoading,
                     onPressed: _handleSignUp,
                   ),
                 ),
@@ -205,11 +209,84 @@ class _SignupScreenState extends State<SignupScreen> {
     );
   }
 
-  void _handleSignUp() {
+  Future<void> _handleSignUp() async {
     if (_formKey.currentState?.validate() ?? false) {
-      final authController = Get.find<AuthController>();
-      authController.login();
-      Get.back();
+      setState(() {
+        _isLoading = true;
+      });
+
+      try {
+        // Only athletes can sign up - parents are created by athletes
+        final selectedRole = await SharedPreferencesService.getUserRole();
+        if (selectedRole.isEmpty || selectedRole.toLowerCase() != 'athlete') {
+          Get.snackbar(
+            'Signup Restricted',
+            'Only athletes can create accounts. Parents must use credentials provided by their athlete.',
+            snackPosition: SnackPosition.BOTTOM,
+            backgroundColor: AppColors.error,
+            colorText: Colors.white,
+            duration: const Duration(seconds: 4),
+          );
+          setState(() {
+            _isLoading = false;
+          });
+          Get.offAll(() => const AuthWrapper());
+          return;
+        }
+
+        final result = await authService.signUpWithEmailAndPassword(
+          _emailController.text.trim(),
+          _passwordController.text,
+          _nameController.text.trim(),
+        );
+
+        if (result.success && result.user != null) {
+          // Role is already set in AuthService from LandingScreen selection
+          // No need to override it here
+          
+          // Clear fields
+          _nameController.clear();
+          _emailController.clear();
+          _passwordController.clear();
+
+          // Show success message
+          Get.snackbar(
+            'Success',
+            'Account created successfully!',
+            snackPosition: SnackPosition.BOTTOM,
+            backgroundColor: AppColors.primaryGreen,
+            colorText: Colors.white,
+            duration: const Duration(seconds: 1),
+          );
+
+          // Navigate back to let AuthWrapper handle navigation
+          print('[SignupScreen] Signup successful! Navigating back to AuthWrapper...');
+          Get.back();
+        } else {
+          // Show error message
+          Get.snackbar(
+            'Sign Up Failed',
+            result.error ?? 'An error occurred during sign up',
+            snackPosition: SnackPosition.BOTTOM,
+            backgroundColor: AppColors.error,
+            colorText: Colors.white,
+            duration: const Duration(seconds: 3),
+          );
+        }
+      } catch (e) {
+        Get.snackbar(
+          'Error',
+          'An unexpected error occurred: ${e.toString()}',
+          snackPosition: SnackPosition.BOTTOM,
+          backgroundColor: AppColors.error,
+          colorText: Colors.white,
+          duration: const Duration(seconds: 3),
+        );
+      } finally {
+        setState(() {
+          _isLoading = false;
+        });
+      }
     }
   }
 }

@@ -44,7 +44,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   child: TextButton(
                     onPressed: () {
                       Get.find<OnboardingController>().completeOnboarding();
-                      Get.back();
+                   
                     },
                     child: Text(
                       'Skip',
@@ -209,7 +209,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                             if (_currentPage == 1) {
                               Get.find<OnboardingController>()
                                   .completeOnboarding();
-                              Get.back();
+                              // Navigation will be handled by AuthWrapper reactively
                             } else {
                               _pageController.nextPage(
                                 duration: const Duration(milliseconds: 300),

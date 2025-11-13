@@ -1,4 +1,3 @@
-import 'package:athleteiq/controllers/auth_controller.dart';
 import 'package:athleteiq/modules/auth/login_screen.dart';
 import 'package:athleteiq/services/shared_preference.dart';
 import 'package:flutter/material.dart';
@@ -6,7 +5,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import '../../data/app_colors.dart';
-import '../../widgets/components/custom_card.dart';
 import '../../widgets/animations/animated_widgets.dart';
 import 'components/role_selection.dart';
 
@@ -76,7 +74,7 @@ class LandingScreen extends StatelessWidget {
 
                 SizedBox(height: 40.h),
 
-                // Athlete card
+                // Athlete card - only athletes can sign up
                 RoleSelectionCard(
                   title: 'I\'m an Athlete',
                   subtitle:
@@ -84,24 +82,22 @@ class LandingScreen extends StatelessWidget {
                   icon: Iconsax.user,
                   color: AppColors.primaryBlue,
                   onTap: () async {
-                    final authController = Get.find<AuthController>();
                     await SharedPreferencesService.setUserRole('athlete');
-                    authController.userRole = 'athlete';
                     Get.to(() => const LoginScreen());
                   },
                 ),
 
                 SizedBox(height: 16.h),
+                
+                // Parent login only - no signup
                 RoleSelectionCard(
                   title: 'I\'m a Parent',
                   subtitle:
-                      'Support my athlete\'s recruiting journey and track their progress',
+                      'Login with credentials provided by your athlete',
                   icon: Iconsax.people,
                   color: AppColors.primaryOrange,
-                  onTap: () async {
-                    final authController = Get.find<AuthController>();
-                    await SharedPreferencesService.setUserRole('parent');
-                    authController.userRole = 'parent';
+                  onTap: () {
+                    // Parents can only login, not signup
                     Get.to(() => const LoginScreen());
                   },
                 ),
